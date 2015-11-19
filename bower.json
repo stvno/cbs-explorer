@@ -19,6 +19,8 @@
     "d3": "~3.5.9",
     "leaflet": "~0.7.7",
     "underscore": "~1.8.3",
-    "grunt": "~0.4.5"
+    "grunt": "~0.4.5",
+    "leaflet-hash": "*",
+    "Leaflet.MapboxVectorTile": "~0.1.6"
   }
 }
