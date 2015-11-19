@@ -1,0 +1,24 @@
+{
+  "name": "cbs-explorer",
+  "homepage": "https://github.com/stvno/cbs-explorer",
+  "authors": [
+    "stvno <github@minst.net>"
+  ],
+  "description": "MVT-based spatial statistics explorer",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "Apache 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.9",
+    "leaflet": "~0.7.7",
+    "underscore": "~1.8.3",
+    "grunt": "~0.4.5"
+  }
+}
