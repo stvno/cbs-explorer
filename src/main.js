@@ -1,7 +1,7 @@
 "use strict";
 //(function(){
 /*general map related code*/
-var map = L.map('map',{maxZoom:16,minZoom:7}).setView([52.342, 4.91], 12);       
+var map = L.map('map',{maxZoom:16,minZoom:7}).setView([52.342, 4.91], 12);
 var toner = new L.StamenTileLayer("toner");
 map.addLayer(toner);
 var hash = L.hash(map);
@@ -28,7 +28,7 @@ var c = {
 var scale;
 
 var setScale = function() {
-    
+
     //get an array of the relevant values
     var values = buurtById.values().map(function(d){return d[c.attr]});
     //choose color and # classes;
@@ -37,7 +37,7 @@ var setScale = function() {
     switch(c.type) {
         case 'q':
             //quantile
-            
+
             scale = d3.scale.quantile()
                 .domain(values)
                 .range(cb)
@@ -52,12 +52,12 @@ var setScale = function() {
         case 's':
             //sd-divergent
             var dev = d3.deviation(values);
-            var mean = d3.mean(values);            
+            var mean = d3.mean(values);
             var one = (mean-2*dev)<0?0:mean-2*dev;
             var two = (mean-dev)<0?0:mean-dev;
             var three = mean;
             var four = mean + dev;
-            var five = mean + 2*dev;            
+            var five = mean + 2*dev;
             c.steps = [one,two,three,four,five]
             //TODO: land area adam-noord/broek delen door 0?
             scale = d3.scale.threshold()
@@ -78,7 +78,7 @@ var colorMe = function(id) {
     else {
         return 'rgba(0,0,0,0)'
     }
-    
+
 }
 
 /*TSV related code*/
@@ -150,20 +150,20 @@ var style = function(f) {
         style.outline = {
             color:  'rgba(0,0,0,0.5)',
             size: linewidth
-        };  
+        };
     }
     else {
         style.color = 'rgba(197,27,138,0.2)';
         style.outline = {
                 color: 'rgb(122,1,119)',
                 size: linewidth
-        };    
-    }    
+        };
+    }
     return style;
 }
 var mvtSource = new L.TileLayer.MVTSource({
   url: "https://{s}.tiles.mapbox.com/v4/wherecampeu.33aym4j6/{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1Ijoid2hlcmVjYW1wZXUiLCJhIjoieHE4bVNuRSJ9.qFTj9L2TMzVXX8G2QwJl_g",
-  style: style,  
+  style: style,
   getIDForLayerFeature: function(feature) {
     return feature.properties.id;
   },
@@ -179,11 +179,19 @@ var mvtSource = new L.TileLayer.MVTSource({
 })
 var refreshStyle = function(newC) {
     if(newC!==undefined) {
-        
+
     }
     setScale();
     mvtSource.setStyle(style);
     createLegend();
 }
 map.addLayer(mvtSource);
+
+// ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
+var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+var topLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner-labels/{z}/{x}/{y}.png', {
+  maxZoom: 17
+}).addTo(map);
+topPane.appendChild(topLayer.getContainer());
+topLayer.setZIndex(7);
 //})();
