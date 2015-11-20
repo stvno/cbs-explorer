@@ -61,12 +61,29 @@ var setScale = function() {
             //sd-divergent
             var dev = d3.deviation(values);
             var mean = d3.mean(values);
-            var one = (mean-2*dev)<0?0:mean-2*dev;
-            var two = (mean-dev)<0?0:mean-dev;
-            var three = mean;
-            var four = mean + dev;
-            var five = mean + 2*dev;
-            c.steps = [one,two,three,four,five]
+            switch(c.cnt) {
+                case '3':
+                    c.steps = [mean-dev,mean+dev]
+                break;
+                case '4':
+                    c.steps = [mean-dev,mean,mean+dev]
+                break;
+                case '5':
+                    c.steps = [mean-2*dev,mean-dev,mean+dev,mean+2*dev]
+                break;
+                case '6':
+                    c.steps = [mean-2*dev,mean-dev,mean,mean+dev,mean+2*dev]
+                break;
+                case '7':
+                    c.steps = [mean-2*dev,mean-dev,mean-dev/2,mean+dev/2,mean+dev,mean+2*dev]
+                break;
+                case '8':
+                    c.steps = [mean-2*dev,mean-dev,mean-dev/2,mean,mean+dev/2,mean+dev,mean+2*dev]
+                break;
+                case '9':
+                    c.steps = [mean-2*dev,mean-1.5*dev,mean-dev,mean-dev/2,mean+dev/2,mean+dev,mean+1.5*dev,mean+2*dev]
+                break;
+            }
             //TODO: land area adam-noord/broek delen door 0?
             scale = d3.scale.threshold()
                 .domain(c.steps)
