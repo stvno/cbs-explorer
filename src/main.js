@@ -28,7 +28,7 @@ var c = {
 var scale;
 
 var setScale = function() {
-    console.log(c);
+    
     //get an array of the relevant values
     var values = buurtById.values().map(function(d){return d[c.attr]});
     //choose color and # classes;
@@ -37,10 +37,11 @@ var setScale = function() {
     switch(c.type) {
         case 'q':
             //quantile
-            console.log(scale);
+            
             scale = d3.scale.quantile()
                 .domain(values)
                 .range(cb)
+            c.steps = scale.quantiles();
         break;
         case 'l':
             //linear
@@ -57,9 +58,10 @@ var setScale = function() {
             var three = mean;
             var four = mean + dev;
             var five = mean + 2*dev;            
+            c.steps = [one,two,three,four,five]
             //TODO: land area adam-noord/broek delen door 0?
             scale = d3.scale.threshold()
-                .domain([one,two,three,four,five])
+                .domain(c.steps)
                 .range(cb)
         break;
     }
@@ -180,7 +182,8 @@ var refreshStyle = function(newC) {
         
     }
     setScale();
-    mvtSource.setStyle(style)
+    mvtSource.setStyle(style);
+    createLegend();
 }
 map.addLayer(mvtSource);
 //})();

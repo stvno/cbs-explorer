@@ -16,11 +16,81 @@ piefje.onclick= function(e){
     input['onclick' in input ? 'onclick' : 'onchange'] = function (e) {
         c.type = this.value;
         //TODO: get values from input
-        
+        if(c.type=='s') c.color = "PuOr";
+        else c.color = "YlGn";
         refreshStyle(c);
     };
 });
-
+var selector = document.getElementById('themeselector');
+selector.onchange = function(e) {
+    c.attr = this.value;
+    refreshStyle(c);
+};
+var numberclass = document.getElementById('numberclasses');
+numberclass.onchange = function(e) {
+    c.cnt = this.value; 
+    refreshStyle();
+}
+var colors = [
+{name:'YlGn',type:'seq'},
+{name:'YlGnBu',type:'seq'},
+{name:'GnBu',type:'seq'},
+{name:'BuGn',type:'seq'},
+{name:'PuBuGn',type:'seq'},
+{name:'PuBu',type:'seq'},
+{name:'BuPu',type:'seq'},
+{name:'RdPu',type:'seq'},
+{name:'PuRd',type:'seq'},
+{name:'OrRd',type:'seq'},
+{name:'YlOrRd',type:'seq'},
+{name:'YlOrBr',type:'seq'},
+{name:'Purples',type:'seq'},
+{name:'Blues',type:'seq'},
+{name:'Greens',type:'seq'},
+{name:'Oranges',type:'seq'},
+{name:'Reds',type:'seq'},
+{name:'Greys',type:'seq'},
+{name:'PuOr',type:'div'},
+{name:'BrBG',type:'div'},
+{name:'PRGn',type:'div'},
+{name:'PiYG',type:'div'},
+{name:'RdBu',type:'div'},
+{name:'RdGy',type:'div'},
+{name:'RdYlBu',type:'div'},
+{name:'Spectral',type:'div'},
+{name:'RdYlGn',type:'div'}
+]
+var colorlist = document.getElementById('colorlist');
+var refreshColors = function() {
+    colorlist.innerHTML = null;
+    var showcolors = colors.filter(function(d){
+        if (c.type=='s') return d.type == 'div';
+        else return d.type=='seq';
+    })
+    showcolors.forEach(function(d){
+        var t = document.querySelector('#colorTemplate');
+        var svg = t.content.querySelector('svg');
+        svg.id = d.name;
+        var c0 = t.content.querySelector('.c0');
+        var c1 = t.content.querySelector('.c1');
+        var c2 = t.content.querySelector('.c2');
+        c0.attributes.fill.value = colorbrewer[d.name][3][0];
+        c1.attributes.fill.value = colorbrewer[d.name][3][1];
+        c2.attributes.fill.value = colorbrewer[d.name][3][2];
+        var clone = document.importNode(t.content, true);
+        colorlist.appendChild(clone);
+    });
+};
+    refreshColors();
+colorlist.onclick = function(e) {
+    var svg = e.target.hasAttribute('y')?e.target.parentNode:e.target.children[0];
+    c.color = svg.id;
+    [].forEach.call(document.querySelectorAll('#sidebar .colorbar'), function (d) {
+        d.classList.remove('active')
+    });
+    svg.parentNode.classList.add('active');
+    refreshStyle(c);
+    }
 var attributes = [
  {attr: 'a_bst_b', label: '# Petrol cars', type: 'absolute', unit: 'cars'},
  {attr: 'a_bst_nb', label: '# Non-petrol cars', type: 'absolute', unit: 'cars'},
@@ -60,14 +130,6 @@ var attributes = [
  {attr: 'p_verweduw', label: '% Widow(er)s', type: 'percentage', unit :'%'},
  {attr: 'p_west_al', label: '% Western immigrants', type: 'percentage', unit :'%'},
 ];
-var selector = document.getElementById('themeselector');
-selector.onchange = function(e) {
-     c.attr = this.value;
-     console.log(this.value);
-        //TODO: get values from input
-        
-        refreshStyle(c);
-};
 
 attributes.forEach(function(d){
     var t = document.querySelector('#optionTemplate');
@@ -77,4 +139,25 @@ attributes.forEach(function(d){
     var clone = document.importNode(t.content, true);
     selector.appendChild(clone);
 }) 
+
+var createLegend = function() {
+    var elLegend = document.querySelector('#legenda');
+    elLegend.innerHTML = null;
+    
+     var t = document.querySelector('#legendTemplate');
+        t.content.querySelector('.legendcolor').style.background = colorbrewer[c.color][c.cnt][0];
+        t.content.querySelector('.legendvalue').innerHTML =null;
+        var clone = document.importNode(t.content, true);
+        elLegend.appendChild(clone);
+    for(var i=1; i<c.steps.length+1; i++) {
+        var t = document.querySelector('#legendTemplate');
+        t.content.querySelector('.legendcolor').style.background = colorbrewer[c.color][c.cnt][i];
+        t.content.querySelector('.legendvalue').innerHTML =c.steps[i-1];
+        
+        var clone = document.importNode(t.content, true);
+        elLegend.appendChild(clone);
+    }
+   
+}
+
 //})();

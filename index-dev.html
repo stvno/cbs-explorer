@@ -26,11 +26,11 @@ body, html {margin: 0;padding: 0;overflow:hidden;}
 #sidebar {
 background: white;
 border-left: 1px solid #636363;
-width: 20em;
+width: 23em;
 position: absolute;
 top: 0px;
 bottom: 0px;
-right: -20em;
+right: -23em;
 transition: right 200ms;
 display:flex;
 align-items: stretch;
@@ -41,7 +41,7 @@ right: 0px;
 }
 #sidebar .content {
     margin: 0.5em;
-    width: 19em
+    width: 23em
 }
 #piefje {
     position: absolute;
@@ -80,7 +80,39 @@ right: 0px;
     
 }
 #piefje.open {
-    right: 20em;
+    right: 23em;
+}
+#colorlist {
+display: flex;
+}
+.colorbar {
+border: solid 1px white;
+padding: 1px;
+height: 45px;
+}
+.colorbar:hover {
+border: solid 1px rgba(49,130,189,0.8);
+background: rgba(49,130,189,0.8);
+}
+.colorbar.active {
+border: solid 1px rgb(49, 163, 84);
+background: #addd8e;
+}
+#colorlist rect {
+stroke: #333;
+stroke-width: 0.5px;
+cursor: pointer;
+}
+
+.legendrow {
+display:flex;
+}
+.legendcolor {
+width: 30px;
+height:30px;
+}
+.legendvalue {
+margin-top: -10px;
 }
 </style>
 </head>
@@ -88,6 +120,20 @@ right: 0px;
 
 <template id="optionTemplate">
 <option></option>
+</template>
+<template id="colorTemplate">
+<div class="colorbar">
+<svg height="45" width="15">
+<rect y="0" height="15" width="15" class="c0" fill="white"></rect>
+<rect y="15" height="15" width="15" class="c1" fill="white"></rect>
+<rect y="30" height="15" width="15" class="c2" fill="white"></rect>
+</svg>
+</div>
+</template>
+<template id="legendTemplate">
+<div class="legendrow">
+<div class="legendcolor"></div><div class="legendvalue"></div><div class="legendunit"></div>
+</div>
 </template>
 <div id="spinnerdiv" class="cssload-container">
 	<div id="spinner" class="cssload-whirlpool"></div>
@@ -106,8 +152,12 @@ right: 0px;
 <input class="classselect" type='radio' value='s' name="clas">Divergent</input>
 </div>
 <h2>Legend</h2>
+<div id="colorlist"></div>
 <div>
-colors
+<input id="numberclasses" type="number" min=3 max=9 value=5></input>
+</div>
+<div id="legenda">
+
 </div>
 </div>
 <script src="bower_components/d3/d3.min.js"></script>
