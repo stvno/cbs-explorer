@@ -45,9 +45,17 @@ var setScale = function() {
         break;
         case 'l':
             //linear
+            var min = d3.min(values);
+            var max = d3.max(values);
+            var step = (max-min)/(c.cnt-1);
+            c.steps = [];
+            for(var i = 1;i<c.cnt;i++) {
+                c.steps.push(min+i*step);
+            }
             scale = d3.scale.threshold()
                 .domain(c.steps)
-                .range(cb)
+                .range(cb);
+            
         break;
         case 's':
             //sd-divergent

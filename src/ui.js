@@ -168,6 +168,14 @@ opacityslider.onchange = function(e) {
 }
 var mettext = document.getElementById('mettext');
 mettext.onclick = function(e) {
+    if(e.target.classList.contains('show')){
+        e.target.classList.remove('show');
+        e.target.innerHTML = '?';
+    }
+    else {
+        e.target.classList.add('show');
+        e.target.innerHTML = '✔';
+    }
      [].forEach.call(document.querySelectorAll('#sidebar .text'), function (d) {
         d.classList.contains('hidden')?d.classList.remove('hidden'):d.classList.add('hidden');
     });

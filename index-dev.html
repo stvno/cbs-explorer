@@ -201,7 +201,7 @@ display:none;
 <div id="piefje" class="open"><div class="piefje-icon close">»</div><div class="piefje-icon open">«</div></div>
 <div id="sidebar" class="open">
 <div class="content">
-<h1>3 step CBS explorer <span id="mettext">✍</span></h1>
+<h1>3 step CBS explorer <span id="mettext" class="show">✔</span></h1>
 <h2>① Theme</h2>
 <p class="text">
 Choose a theme to display on the map. For more information see the <a href="http://www.cbs.nl/en-GB/menu/home/default.htm?Languageswitch=on">CBS</a> <a href="http://www.cbs.nl/NR/rdonlyres/E9691D77-C5D4-4175-88E2-193BF73758DF/0/2015toelichtingwijkenbuurtkaart20122014.pdf">explanation</a> of the themes.
@@ -213,8 +213,8 @@ Choose a classification method to visualise your theme. You can choose between <
 </p>
 <div>
 <input class="classselect" type='radio' value='q' checked name="clas">Quantile</input>
-<input class="classselect" type='radio' value='l' name="clas" disabled>Equal interval</input>
-<input class="classselect" type='radio' value='s' name="clas" disabled >Diverging</input>
+<input class="classselect" type='radio' value='l' name="clas" >Equal interval</input>
+<input class="classselect" type='radio' value='s' name="clas"  >Diverging</input>
 </div>
 <h2>③ Colorscheme</h2>
 <p class="text">Pick a colorscheme you like, note that diverging maps require a different set of colors...</p>
@@ -228,7 +228,8 @@ Choose a classification method to visualise your theme. You can choose between <
 
 </div>
 <p class="text">You can change the opacity of your visualisation to see the map below:</p>
-<input type="range" min="0" max="1" step="0.05" value="1" id="opacityslider" style="width:18em"></input><input type="checkbox" id="labels" checked></input>
+<input type="range" min="0" max="1" step="0.05" value="1" id="opacityslider" style="width:18em"></input><br/>
+Show labels on top of your map: <input type="checkbox" id="labels" checked></input>
 <h2>Information</h2>
 Made by <a href="http://twitter.com/stvno">@stvno</a>
 </div>
@@ -236,7 +237,7 @@ Made by <a href="http://twitter.com/stvno">@stvno</a>
 <script src="bower_components/leaflet/dist/leaflet.js"></script>
 <script src="bower_components/leaflet-hash/leaflet-hash.js"></script>
 <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
-<script src="bower_components/Leaflet.MapboxVectorTile/dist/Leaflet.MapboxVectorTile.js"></script>
+<script src="bower_components/Leaflet.MapboxVectorTile/dist/Leaflet.MapboxVectorTile.min.js"></script>
 
 
 <script src="src/colorbrewer.js"></script>
