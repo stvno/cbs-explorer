@@ -7,8 +7,38 @@
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet" href="style/spinner.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Dancing+Script|Overlock' rel='stylesheet' type='text/css'>
 <style>
+* {font-family: 'Overlock', sans-serif;}
 body, html {margin: 0;padding: 0;overflow:hidden;}
+h1,h2,h3{font-family: 'Dancing Script', cursive;}
+h1 {
+    padding: 0.2em;
+    background: rgba(49,130,189,0.1);
+    margin: 0px;
+    }
+h2 {
+margin: 0px 0em 0.3em 0em;
+padding:1em 0.2em 0.2em 0.2em;
+
+border-bottom: solid 1px  rgba(49,130,189,0.1);
+    }
+h3 {
+font-size: smaller;
+    }
+ a {
+ color: black;
+ border-bottom: solid 2px rgba(49,130,189,0.2);
+ text-decoration:none;
+ }
+ a:hover {
+ border-bottom: solid 2px rgba(49,130,189,0.6);
+ }
+ a:visited {
+ border-bottom: solid 1px rgba(49,130,189,0.1);
+ }
+div {
+padding 0.2em}
 #map {position:absolute;background: #636363;width: 100%;top: 0px;bottom: 0px;}
 #spinnerdiv {
     position: absolute;
@@ -41,7 +71,9 @@ right: 0px;
 }
 #sidebar .content {
     margin: 0.5em;
-    width: 23em
+    width: 23em;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
 #piefje {
     position: absolute;
@@ -77,6 +109,9 @@ right: 0px;
     background: rgba(49,130,189,0.8);
     color: white;
     font-weight: bold;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
     
 }
 #piefje.open {
@@ -111,9 +146,13 @@ display:flex;
 width: 30px;
 height:30px;
 }
-.legendvalue {
+.legendvalue,.legendunit {
 margin-top: -10px;
+margin-left: 4px;
 }
+input[type=number]{
+    width: 2em;
+} 
 </style>
 </head>
 <body>
@@ -143,22 +182,35 @@ margin-top: -10px;
 <div id="sidebar" class="open">
 <div class="content">
 <h1>CBS explorer</h1>
-<h2>Theme</h2>
+<h2>1 Theme</h2>
+<p>
+Choose a theme to display on the map. For more information see the <a href="http://www.cbs.nl/en-GB/menu/home/default.htm?Languageswitch=on">CBS</a> <a href="http://www.cbs.nl/NR/rdonlyres/E9691D77-C5D4-4175-88E2-193BF73758DF/0/2015toelichtingwijkenbuurtkaart20122014.pdf">explanation</a> of the themes.
+</p>
 <select id="themeselector"></select>
-<h2>Classification</h2>
+<h2>2 Classification</h2>
+<p>
+Choose a classification method to visualise your theme. You can choose between <a href="http://wiki.gis.com/wiki/index.php/Quantile">quantile</a>, <a href="http://wiki.gis.com/wiki/index.php/Equal_Interval_classification">equal interval</a> and diverging from the mean by standard deviation based steps.
+</p>
 <div>
 <input class="classselect" type='radio' value='q' checked name="clas">Quantile</input>
-<input class="classselect" type='radio' value='l' name="clas">Linear</input>
-<input class="classselect" type='radio' value='s' name="clas">Divergent</input>
+<input class="classselect" type='radio' value='l' name="clas" disabled>Equal interval</input>
+<input class="classselect" type='radio' value='s' name="clas" disabled >Diverging</input>
 </div>
-<h2>Legend</h2>
+<h2>3 Colorscheme</h2>
+<p>Pick a colorscheme you like, note that diverging maps require a different set of colors...</p>
 <div id="colorlist"></div>
 <div>
-<input id="numberclasses" type="number" min=3 max=9 value=5></input>
+<p>...and choose the number of classes you want to display on the map:
+<input id="numberclasses" type="number" min="3" max="9" value="5" size="1"></input> and you are all set.</p>
 </div>
+<h2>Result</h2>
 <div id="legenda">
 
 </div>
+<p>You can change the opacity of your visualisation to see the map below:</p>
+<input type="range" min="0" max="1" step="0.05" value="1" id="opacityslider" style="width:18em"></input>
+<h2>Information</h2>
+Made by <a href="http://twitter.com/stvno">@stvno</a>
 </div>
 <script src="bower_components/d3/d3.min.js"></script>
 <script src="bower_components/leaflet/dist/leaflet.js"></script>

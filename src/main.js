@@ -21,7 +21,7 @@ var c = {
     color: 'PuBu',
     cnt: 5,
     type: 'q', //quantile 'q', linear 'l', sd-divergent 's'
-    attr: 'a_bst_b',
+    attr: 'p_00_14_jr',
     soort: 'p', //percentage 'p'
     steps: [20,40,60,80]
 };

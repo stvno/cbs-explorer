@@ -92,24 +92,6 @@ colorlist.onclick = function(e) {
     refreshStyle(c);
     }
 var attributes = [
- {attr: 'a_bst_b', label: '# Petrol cars', type: 'absolute', unit: 'cars'},
- {attr: 'a_bst_nb', label: '# Non-petrol cars', type: 'absolute', unit: 'cars'},
- {attr: 'a_lftj6j', label: '# Cars < 6 years', type: 'absolute', unit: 'cars'},
- {attr: 'a_lfto6j', label: '# Cars 6+ years', type: 'absolute', unit: 'cars'},
- {attr: 'aant_inw', label: '# Inhabitants', type: 'absolute', unit: 'persons'},
- {attr: 'aant_man', label: '# Males', type: 'absolute', unit: 'males'},
- {attr: 'aant_vrouw', label: '# Females', type: 'absolute', unit: 'females'},
- {attr: 'aantal_hh', label: '# Households', type: 'absolute', unit: 'households'},
- {attr: 'auto_hh', label: 'Cars/household', type: 'relative', unit: 'car/hh'},
- {attr: 'auto_land', label: 'Car density', type: 'density', unit: 'car/km²'},
- {attr: 'auto_tot', label: '# Cars', type: 'absolute', unit: 'cars'},
- {attr: 'bedr_auto', label: '# Company cars', type: 'absolute', unit: 'cars'},
- {attr: 'bev_dichth', label: 'Population density', type: 'density', unit: 'persons/km²'},
- {attr: 'gem_hh_gr', label: 'Average household size', type: 'relative', unit: 'persons'},
- {attr: 'motor_2w', label: '# Motorbikes', type: 'absolute', unit: 'bikes'},
- {attr: 'opp_land', label: 'Land area', type: 'absolute', unit: 'ha'},
- {attr: 'opp_tot', label: 'Total area', type: 'absolute', unit: 'ha'},
- {attr: 'opp_water', label: 'Water area', type: 'absolute', unit: 'ha'},
  {attr: 'p_00_14_jr', label: '% 0-14 year', type: 'percentage', unit :'%'},
  {attr: 'p_15_24_jr', label: '% 15-24 year', type: 'percentage', unit :'%'},
  {attr: 'p_25_44_jr', label: '% 25-44 year', type: 'percentage', unit :'%'},
@@ -129,6 +111,24 @@ var attributes = [
  {attr: 'p_turkije', label: '% from Turkey', type: 'percentage', unit :'%'},
  {attr: 'p_verweduw', label: '% Widow(er)s', type: 'percentage', unit :'%'},
  {attr: 'p_west_al', label: '% Western immigrants', type: 'percentage', unit :'%'},
+ {attr: 'a_bst_b', label: '# Petrol cars', type: 'absolute', unit: 'cars'},
+ {attr: 'a_bst_nb', label: '# Non-petrol cars', type: 'absolute', unit: 'cars'},
+ {attr: 'a_lftj6j', label: '# Cars < 6 years', type: 'absolute', unit: 'cars'},
+ {attr: 'a_lfto6j', label: '# Cars 6+ years', type: 'absolute', unit: 'cars'},
+ {attr: 'aant_inw', label: '# Inhabitants', type: 'absolute', unit: 'persons'},
+ {attr: 'aant_man', label: '# Males', type: 'absolute', unit: 'males'},
+ {attr: 'aant_vrouw', label: '# Females', type: 'absolute', unit: 'females'},
+ {attr: 'aantal_hh', label: '# Households', type: 'absolute', unit: 'households'},
+ {attr: 'auto_hh', label: 'Cars/household', type: 'relative', unit: 'car/hh'},
+ {attr: 'auto_land', label: 'Car density', type: 'density', unit: 'car/km²'},
+ {attr: 'auto_tot', label: '# Cars', type: 'absolute', unit: 'cars'},
+ {attr: 'bedr_auto', label: '# Company cars', type: 'absolute', unit: 'cars'},
+ {attr: 'bev_dichth', label: 'Population density', type: 'density', unit: 'persons/km²'},
+ {attr: 'gem_hh_gr', label: 'Average household size', type: 'relative', unit: 'persons'},
+ {attr: 'motor_2w', label: '# Motorbikes', type: 'absolute', unit: 'bikes'},
+ {attr: 'opp_land', label: 'Land area', type: 'absolute', unit: 'ha'},
+ {attr: 'opp_tot', label: 'Total area', type: 'absolute', unit: 'ha'},
+ {attr: 'opp_water', label: 'Water area', type: 'absolute', unit: 'ha'}
 ];
 
 attributes.forEach(function(d){
@@ -142,22 +142,28 @@ attributes.forEach(function(d){
 
 var createLegend = function() {
     var elLegend = document.querySelector('#legenda');
-    elLegend.innerHTML = null;
+    var attr = attributes.filter(function(d){return d.attr == c.attr});    
+    elLegend.innerHTML = '<h3>'+attr[0].label+'</h3>';
     
      var t = document.querySelector('#legendTemplate');
         t.content.querySelector('.legendcolor').style.background = colorbrewer[c.color][c.cnt][0];
         t.content.querySelector('.legendvalue').innerHTML =null;
+        t.content.querySelector('.legendunit').innerHTML =null;
         var clone = document.importNode(t.content, true);
         elLegend.appendChild(clone);
     for(var i=1; i<c.steps.length+1; i++) {
         var t = document.querySelector('#legendTemplate');
         t.content.querySelector('.legendcolor').style.background = colorbrewer[c.color][c.cnt][i];
-        t.content.querySelector('.legendvalue').innerHTML =c.steps[i-1];
+        t.content.querySelector('.legendvalue').innerHTML =Math.round(c.steps[i-1]*100)/100;
+        t.content.querySelector('.legendunit').innerHTML =attr[0].unit;
         
         var clone = document.importNode(t.content, true);
         elLegend.appendChild(clone);
     }
    
 }
-
+var opacityslider = document.getElementById('opacityslider');
+opacityslider.onchange = function(e) {
+    mvtSource.setOpacity(this.value)
+}
 //})();
