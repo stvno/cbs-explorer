@@ -1,5 +1,5 @@
 "use strict";
-(function(){
+//(function(){
 /*general map related code*/
 var map = L.map('map',{maxZoom:16,minZoom:7}).setView([52.342, 4.91], 12);       
 var toner = new L.StamenTileLayer("toner");
@@ -180,4 +180,4 @@ var refreshStyle = function(newC) {
     mvtSource.setStyle(style)
 }
 map.addLayer(mvtSource);
-})();
+//})();
