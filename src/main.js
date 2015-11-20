@@ -23,7 +23,8 @@ var c = {
     type: 'q', //quantile 'q', linear 'l', sd-divergent 's'
     attr: 'p_00_14_jr',
     soort: 'p', //percentage 'p'
-    steps: [20,40,60,80]
+    steps: [20,40,60,80],
+    range: 's' //sequential 's', divergent 'd'
 };
 var scale;
 

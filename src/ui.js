@@ -16,9 +16,16 @@ piefje.onclick= function(e){
     input['onclick' in input ? 'onclick' : 'onchange'] = function (e) {
         c.type = this.value;
         //TODO: get values from input
-        if(c.type=='s') c.color = "PuOr";
-        else c.color = "YlGn";
+        if(c.type=='s' && c.range !== 'd') { 
+            c.color = "PuOr";
+            c.range = 'd';
+        }
+        else if ((c.type=='l'||c.type=='q')&&c.range!=='s') {
+            c.color = "YlGn";
+            c.range = 's';
+        }        
         refreshStyle(c);
+        refreshColors();
     };
 });
 var selector = document.getElementById('themeselector');
@@ -67,8 +74,9 @@ var refreshColors = function() {
         if (c.type=='s') return d.type == 'div';
         else return d.type=='seq';
     })
-    showcolors.forEach(function(d){
+    showcolors.forEach(function(d){        
         var t = document.querySelector('#colorTemplate');
+        t.content.querySelector('.colorbar').classList.remove('active');
         var svg = t.content.querySelector('svg');
         svg.id = d.name;
         var c0 = t.content.querySelector('.c0');
@@ -77,11 +85,12 @@ var refreshColors = function() {
         c0.attributes.fill.value = colorbrewer[d.name][3][0];
         c1.attributes.fill.value = colorbrewer[d.name][3][1];
         c2.attributes.fill.value = colorbrewer[d.name][3][2];
+        if(d.name==c.color) t.content.querySelector('.colorbar').classList.add('active');
         var clone = document.importNode(t.content, true);
         colorlist.appendChild(clone);
     });
 };
-    refreshColors();
+refreshColors();
 colorlist.onclick = function(e) {
     var svg = e.target.hasAttribute('y')?e.target.parentNode:e.target.children[0];
     c.color = svg.id;
