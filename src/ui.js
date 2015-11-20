@@ -166,4 +166,10 @@ var opacityslider = document.getElementById('opacityslider');
 opacityslider.onchange = function(e) {
     mvtSource.setOpacity(this.value)
 }
+var mettext = document.getElementById('mettext');
+mettext.onclick = function(e) {
+     [].forEach.call(document.querySelectorAll('#sidebar .text'), function (d) {
+        d.classList.contains('hidden')?d.classList.remove('hidden'):d.classList.add('hidden');
+    });
+}
 //})();
