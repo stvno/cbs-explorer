@@ -18,16 +18,17 @@ var buurtById = d3.map();
 var tsvIsLoaded = false;
 //classification settings
 var c = {
-    color: 'PRGn',
-    cnt: 6,
-    type: 's', //quantile 'q', linear 'l', sd-divergent 's'
-    attr: 'p_25_44_jr',
-    soort: 'l', //percentage 'p'
+    color: 'PuBu',
+    cnt: 5,
+    type: 'q', //quantile 'q', linear 'l', sd-divergent 's'
+    attr: 'a_bst_b',
+    soort: 'p', //percentage 'p'
     steps: [20,40,60,80]
 };
 var scale;
 
 var setScale = function() {
+    console.log(c);
     //get an array of the relevant values
     var values = buurtById.values().map(function(d){return d[c.attr]});
     //choose color and # classes;
@@ -36,6 +37,7 @@ var setScale = function() {
     switch(c.type) {
         case 'q':
             //quantile
+            console.log(scale);
             scale = d3.scale.quantile()
                 .domain(values)
                 .range(cb)
@@ -55,6 +57,7 @@ var setScale = function() {
             var three = mean;
             var four = mean + dev;
             var five = mean + 2*dev;            
+            //TODO: land area adam-noord/broek delen door 0?
             scale = d3.scale.threshold()
                 .domain([one,two,three,four,five])
                 .range(cb)

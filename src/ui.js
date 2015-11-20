@@ -20,6 +20,7 @@ piefje.onclick= function(e){
         refreshStyle(c);
     };
 });
+
 var attributes = [
  {attr: 'a_bst_b', label: '# Petrol cars', type: 'absolute', unit: 'cars'},
  {attr: 'a_bst_nb', label: '# Non-petrol cars', type: 'absolute', unit: 'cars'},
@@ -59,6 +60,21 @@ var attributes = [
  {attr: 'p_verweduw', label: '% Widow(er)s', type: 'percentage', unit :'%'},
  {attr: 'p_west_al', label: '% Western immigrants', type: 'percentage', unit :'%'},
 ];
+var selector = document.getElementById('themeselector');
+selector.onchange = function(e) {
+     c.attr = this.value;
+     console.log(this.value);
+        //TODO: get values from input
+        
+        refreshStyle(c);
+};
 
- 
+attributes.forEach(function(d){
+    var t = document.querySelector('#optionTemplate');
+    var  o = t.content.querySelector('option');
+    o.value = d.attr;
+    o.innerHTML =d.label;
+    var clone = document.importNode(t.content, true);
+    selector.appendChild(clone);
+}) 
 //})();
