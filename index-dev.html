@@ -6,8 +6,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="style/spinner.css"/>
 <style>
-body, html {margin: 0;padding: 0;}
+body, html {margin: 0;padding: 0;overflow:hidden;}
 #map {position:absolute;background: #636363;width: 100%;top: 0px;bottom: 0px;}
 #spinnerdiv {
     position: absolute;
@@ -21,53 +22,66 @@ body, html {margin: 0;padding: 0;}
 }
 
 
-.cssload-container{
-	position:relative;
+
+#sidebar {
+background: white;
+border-left: 1px solid #636363;
+width: 20em;
+position: absolute;
+top: 0px;
+bottom: 0px;
+right: -20em;
+transition: right 200ms;
+display:flex;
+align-items: stretch;
 }
-	
-.cssload-whirlpool,
-.cssload-whirlpool::before,
-.cssload-whirlpool::after {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	border: 1px solid rgb(166,189,219);
-	border-left-color: rgb(43,141,190);
-	border-radius: 974px;
+#sidebar.open {
+right: 0px;
+
 }
-
-.cssload-whirlpool {
-	margin: -24px 0 0 -24px;
-	height: 49px;
-	width: 49px;
-	animation: cssload-rotate 1150ms linear infinite;
+#sidebar .content {
+    margin: 0.5em;
+    width: 19em
 }
-
-.cssload-whirlpool::before {
-	content: "";
-	margin: -22px 0 0 -22px;
-	height: 43px;
-	width: 43px;
-	animation: cssload-rotate 1150ms linear infinite;
+#piefje {
+    position: absolute;
+    top:10px;
+    right: 0em;
+    height: 3em;
+    width:2em;
+    background: rgba(255,255,255,0.5);
+    border-radius: 10px 0px 0px 10px;
+    cursor: pointer;
+    border-top: 1px solid #636363;
+    border-bottom: 1px solid #636363;
+    border-left: 1px solid #636363;
+    color: #636363;
+    transition: right 200ms;
 }
-
-.cssload-whirlpool::after {
-	content: "";
-	margin: -28px 0 0 -28px;
-	height: 55px;
-	width: 55px;
-	animation: cssload-rotate 2300ms linear infinite;
-		
-}
-
-
-
-@keyframes cssload-rotate {
-	100% {
-		transform: rotate(360deg);
-	}
+.piefje-icon {
+    text-align: center;
+    font-size: 2em;
 }
 
+#piefje.open .open {
+    display: none;
+}
+#piefje .close {
+    display: none;
+}
+#piefje.open .close {
+    display: block;
+}
+
+#piefje:hover  {
+    background: rgba(49,130,189,0.8);
+    color: white;
+    font-weight: bold;
+    
+}
+#piefje.open {
+    right: 20em;
+}
 </style>
 </head>
 <body>
@@ -75,6 +89,12 @@ body, html {margin: 0;padding: 0;}
 	<div id="spinner" class="cssload-whirlpool"></div>
 </div>
 <div id="map"></div>
+<div id="piefje" class="open"><div class="piefje-icon close">»</div><div class="piefje-icon open">«</div></div>
+<div id="sidebar" class="open">
+<div class="content">
+test
+</div>
+</div>
 <script src="bower_components/d3/d3.min.js"></script>
 <script src="bower_components/leaflet/dist/leaflet.js"></script>
 <script src="bower_components/leaflet-hash/leaflet-hash.js"></script>
@@ -84,6 +104,7 @@ body, html {margin: 0;padding: 0;}
 
 <script src="src/colorbrewer.js"></script>
 <script src="src/main.js"></script>
+<script src="src/ui.js"></script>
 
 
 </body>
