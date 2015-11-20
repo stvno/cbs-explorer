@@ -1,23 +1,23 @@
 "use strict";
 (function(){
 /*general map related code*/
-let map = L.map('map',{maxZoom:16,minZoom:7}).setView([52.342, 4.91], 12);       
-let toner = new L.StamenTileLayer("toner");
+var map = L.map('map',{maxZoom:16,minZoom:7}).setView([52.342, 4.91], 12);       
+var toner = new L.StamenTileLayer("toner");
 map.addLayer(toner);
-let hash = L.hash(map);
+var hash = L.hash(map);
 
 
 
-let createPopup = function(id) {
+var createPopup = function(id) {
     return 'TODO';
 }
 /* classification related code*/
 var linewidth = 16/18;
 map.on('zoomend',function(){linewidth=map.getZoom()/18})
-let buurtById = d3.map();
-let tsvIsLoaded = false;
+var buurtById = d3.map();
+var tsvIsLoaded = false;
 //classification settings
-let c = {
+var c = {
     color: 'PRGn',
     cnt: 6,
     type: 's', //quantile 'q', linear 'l', sd-divergent 's'
@@ -25,13 +25,13 @@ let c = {
     soort: 'l', //percentage 'p'
     steps: [20,40,60,80]
 };
-let scale;
+var scale;
 
-let setScale = function() {
+var setScale = function() {
     //get an array of the relevant values
-    let values = buurtById.values().map(function(d){return d[c.attr]});
+    var values = buurtById.values().map(function(d){return d[c.attr]});
     //choose color and # classes;
-    let cb = colorbrewer[c.color][c.cnt];
+    var cb = colorbrewer[c.color][c.cnt];
     //choose type of classification
     switch(c.type) {
         case 'q':
@@ -48,13 +48,13 @@ let setScale = function() {
         break;
         case 's':
             //sd-divergent
-            let dev = d3.deviation(values);
-            let mean = d3.mean(values);            
-            let one = (mean-2*dev)<0?0:mean-2*dev;
-            let two = (mean-dev)<0?0:mean-dev;
-            let three = mean;
-            let four = mean + dev;
-            let five = mean + 2*dev;            
+            var dev = d3.deviation(values);
+            var mean = d3.mean(values);            
+            var one = (mean-2*dev)<0?0:mean-2*dev;
+            var two = (mean-dev)<0?0:mean-dev;
+            var three = mean;
+            var four = mean + dev;
+            var five = mean + 2*dev;            
             scale = d3.scale.threshold()
                 .domain([one,two,three,four,five])
                 .range(cb)
@@ -62,7 +62,7 @@ let setScale = function() {
     }
 }
 
-let colorMe = function(id) {
+var colorMe = function(id) {
     if (scale === undefined){
         console.log('no scale!');
         return 'rgb(255,0,0)';
@@ -130,7 +130,7 @@ d3.tsv('data/cbsbuurt.tsv',function(d) {
 });
 //TSV is loaded, stop the tsv-spinner
 
-let tsvLoaded = function() {
+var tsvLoaded = function() {
     document.getElementById('spinnerdiv').style.display='none';
     document.getElementById('spinner').classList.remove('cssload-whirlpool');
     tsvIsLoaded = true;
@@ -138,8 +138,8 @@ let tsvLoaded = function() {
 };
 
 /* MVT related code*/
-let style = function(f) {
-    let style = {};
+var style = function(f) {
+    var style = {};
     if(tsvIsLoaded) {
         style.color = colorMe(f.properties.id);
         style.outline = {
@@ -156,7 +156,7 @@ let style = function(f) {
     }    
     return style;
 }
-let mvtSource = new L.TileLayer.MVTSource({
+var mvtSource = new L.TileLayer.MVTSource({
   url: "https://{s}.tiles.mapbox.com/v4/wherecampeu.33aym4j6/{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1Ijoid2hlcmVjYW1wZXUiLCJhIjoieHE4bVNuRSJ9.qFTj9L2TMzVXX8G2QwJl_g",
   style: style,  
   getIDForLayerFeature: function(feature) {
@@ -165,14 +165,14 @@ let mvtSource = new L.TileLayer.MVTSource({
   mutexToggle: false,
   onClick:function(e){
       if(e.feature!==null) {
-          let popup = L.popup()
+          var popup = L.popup()
             .setLatLng(e.latlng)
             .setContent(createPopup(e.feature.properties.id))
             .addTo(map);
       }
   }
 })
-let refreshStyle = function(newC) {
+var refreshStyle = function(newC) {
     if(newC!==undefined) {
         
     }

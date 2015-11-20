@@ -1,7 +1,7 @@
 'use strict';
 (function(){
-let piefje = document.getElementById('piefje');
-let sidebar = document.getElementById('sidebar');
+var piefje = document.getElementById('piefje');
+var sidebar = document.getElementById('sidebar');
 piefje.onclick= function(e){
     if(piefje.classList.contains('open')) {
         piefje.classList.remove('open');
