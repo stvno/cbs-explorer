@@ -172,4 +172,8 @@ mettext.onclick = function(e) {
         d.classList.contains('hidden')?d.classList.remove('hidden'):d.classList.add('hidden');
     });
 }
+var labelbox = document.getElementById('labels');
+labelbox.onclick = function(e) {
+    this.checked?topLayer.setOpacity(1):topLayer.setOpacity(0);
+}
 //})();
