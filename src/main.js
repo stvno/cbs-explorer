@@ -9,7 +9,16 @@ var hash = L.hash(map);
 
 
 var createPopup = function(id) {
-    return 'TODO';
+    var attr= attributes.filter(function(d){return d.attr == c.attr})[0];
+    var feat = buurtById.get(id);
+    var innertext = '<h4>'+feat.gm_naam+', '+feat.bu_naam+'</h4>';
+    if(feat[c.attr]===null) {
+        innertext+='<span>There are no figures available for this place and theme</span>';
+    }
+    else innertext+='<span>'+attr.label+': '+feat[c.attr]+' '+attr.unit+'</span>';
+    
+    
+    return innertext;
 }
 /* classification related code*/
 var linewidth = 16/18;
@@ -98,7 +107,7 @@ var colorMe = function(id) {
         console.log('no scale!');
         return 'rgb(255,0,0)';
     }
-    if(buurtById.get(id).water == "NEE") {
+    if(buurtById.get(id).water == "NEE"&&buurtById.get(id)[c.attr]!==null) {
         return scale(buurtById.get(id)[c.attr])
     }
     else {
@@ -219,5 +228,5 @@ var topLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner-labels/{z}/{x}/
   maxZoom: 17
 }).addTo(map);
 topPane.appendChild(topLayer.getContainer());
-topLayer.setZIndex(7);
+topLayer.setZIndex(3);
 //})();
